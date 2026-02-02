@@ -69,10 +69,6 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
-
-app.use(session(sessionOptions));
-app.use(flash());
-
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -89,15 +85,18 @@ app.use((req, res, next) => {
   next();
 });
 
+// Root
 app.get('/', (req, res) => {
-  res.redirect('/listings');
+  res.send('🌍 Welcome to WanderLust!');
 });
-
 
 // Routes
 app.use('/listings', listingsRoute);
 app.use('/listings/:id/reviews', reviewsRoute);
+
+// IMPORTANT: mount user routes on /users
 app.use('/users', userRouters);
+
 
 // Start Server
 app.listen(8080, () => console.log('🚀 Server running on port 8080'));
