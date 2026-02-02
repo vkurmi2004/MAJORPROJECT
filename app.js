@@ -13,6 +13,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user.js');
 
+
 // Routes
 const listingsRoute = require('./routes/listing');
 const reviewsRoute = require('./routes/review');
@@ -88,10 +89,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Root
-// app.get('/', (req, res) => {
-//   res.send('🌍 Welcome to WanderLust!');
-// });
+app.get('/', (req, res) => {
+  res.send('🌍 Welcome to WanderLust!');
+});
 
 // Routes
 app.use('/listings', listingsRoute);
