@@ -97,7 +97,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/listings', listingsRoute);
 app.use('/listings/:id/reviews', reviewsRoute);
-app.use('/', userRouters);
+app.use('/users', userRouters);
 
 // Start Server
 app.listen(8080, () => console.log('🚀 Server running on port 8080'));
