@@ -90,8 +90,9 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('🌍 Welcome to WanderLust!');
+  res.redirect('/listings');
 });
+
 
 // Routes
 app.use('/listings', listingsRoute);
