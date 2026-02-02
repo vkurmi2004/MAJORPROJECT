@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+
+    <!-- BRAND -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-compass"></i>
+    </a>
+
+    <!-- TOGGLER -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- NAV LINKS -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- LEFT SIDE -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <div class="row mt-3">
+  <div class="col-8 offset-2">
+    <form action="/listings" method="GET" class="search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        type="text"
+        name="q"
+        placeholder="Search by title or location"
+        value="<%= typeof q !== 'undefined' ? q : '' %>"
+      />
+
+      <button class="btn btn-search" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+
+
+      <!-- RIGHT SIDE -->
+      <div class="navbar-nav ms-auto align-items-center">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+
+        <% if (!currentUser) { %>
+          <a class="nav-link" href="/signup">Sign up</a>
+          <a class="nav-link" href="/login">Log in</a>
+        <% } else { %>
+          <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+</nav>

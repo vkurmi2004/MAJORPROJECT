@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate') %>
+
+<h3 style="text-align:center; margin-top:1rem;">All Listings</h3>
+
+<div class="row">
+  <div class="col-8 offset-2">
+    <!-- You can add filters or search bar here if needed -->
+  </div>
+</div>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:1rem;">
+  <% for(let listing of listings) { %>
+    <a href="/listings/<%= listing._id %>" style="text-decoration:none; color:inherit;">
+      <div class="card" style="width: 18rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius:10px; overflow:hidden; transition: transform 0.3s ease;">
+        
+        <img 
+          src="<%= listing.image && listing.image.url ? listing.image.url : 'https://via.placeholder.com/300x200?text=No+Image' %>" 
+          alt="<%= listing.title %>" 
+          class="card-img-top" 
+          style="height: 200px; object-fit: cover;"
+        >
+
+        <div class="card-body" style="padding: 1rem;">
+          <h5 style="margin:0; font-weight:bold;"><%= listing.title %></h5>
+          <p style="color: #555; margin: 0.5rem 0;"><%= listing.location %></p>
+          <p style="margin: 0; color: #777;">
+            ₹<%= Number(listing.price).toLocaleString('en-IN') %> / night
+          </p>
+          <a href="/listings/<%= listing._id %>" style="text-decoration:none; color:#fe424d;">View Details</a>
+        </div>
+
+      </div>
+    </a>
+  <% } %>
+</div>

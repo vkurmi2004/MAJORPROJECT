@@ -1,0 +1,94 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="new-listing-container">
+  <h3>Create New Listing</h3>
+
+  <% if (error) { %>
+  <div class="alert alert-danger" role="alert">
+    <ul>
+      <% error.forEach(msg => { %>
+        <li><%= msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<% if (success) { %>
+  <div class="alert alert-success" role="alert">
+    <%= success %>
+  </div>
+<% } %>
+
+
+  <!-- Flash messages -->
+  <% if (success && success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+      <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <!-- Bootstrap Form -->
+  <form method="POST" action="/listings" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input id="title" name="listing[title]" type="text" class="form-control" placeholder="Enter Title" required>
+      <div class="invalid-feedback">Please enter a title.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" name="listing[description]" class="form-control" rows="3" placeholder="Enter Description" required></textarea>
+      <div class="invalid-feedback">Please enter a description.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input id="location" name="listing[location]" type="text" class="form-control" placeholder="Enter Location" required>
+      <div class="invalid-feedback">Please enter a location.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input id="price" name="listing[price]" type="number" class="form-control" placeholder="Enter Price" required>
+      <div class="invalid-feedback">Please enter a valid price.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="country" class="form-label">Country</label>
+      <input id="country" name="listing[country]" type="text" class="form-control" placeholder="Enter Country" required>
+      <div class="invalid-feedback">Please enter a country.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Image URL</label>
+      <input id="image" name="listing[image]" type="text" class="form-control" placeholder="Enter Image URL">
+    </div>
+
+    <button type="submit" class="btn btn-danger w-100">Add Listing</button>
+  </form>
+</div>
+
+<script>
+// Bootstrap validation logic
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
