@@ -90,6 +90,10 @@ app.get('/', (req, res) => {
   res.send('🌍 Welcome to WanderLust!');
 });
 
+app.get('/debug-version', (req, res) => {
+  res.send('Deployed version: 88b4c02153e5322e8658f09d31ae6e30f74bd1d3');
+});
+
 
 // Routes
 app.use('/listings', listingsRoute);
