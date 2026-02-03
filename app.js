@@ -85,6 +85,17 @@ app.use((req, res, next) => {
   next();
 });
 
+// ===== API ROUTE =====
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // Root
 app.get('/', (req, res) => {
   res.send('🌍 Welcome to WanderLust!');
@@ -104,4 +115,9 @@ app.use('/users', userRouters);
 
 
 // Start Server
-app.listen(8080, () => console.log('🚀 Server running on port 8080'));
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+
