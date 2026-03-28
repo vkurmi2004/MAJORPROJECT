@@ -97,7 +97,7 @@ app.get("/api/users", async (req, res) => {
 
 // Root
 app.get('/', (req, res) => {
-  res.send('🌍 Welcome to WanderLust!');
+  res.redirect('/listings');
 });
 
 app.get('/debug-version', (req, res) => {

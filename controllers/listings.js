@@ -9,8 +9,22 @@ const geoOptions = {
 const geocoder = NodeGeocoder(geoOptions);
 
 module.exports.index = async (req, res) => {
-  const listings = await Listing.find({});
-  res.render('listings/index', { listings });
+  const { q } = req.query;
+  let filter = {};
+
+  if (q && q.trim().length > 0) {
+    const searchRegex = new RegExp(q.trim(), 'i'); // Case-insensitive fuzzy search
+    filter = {
+      $or: [
+        { title: searchRegex },
+        { location: searchRegex },
+        { country: searchRegex }
+      ]
+    };
+  }
+
+  const listings = await Listing.find(filter);
+  res.render('listings/index', { listings, q });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -34,30 +48,33 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
-  const listing = new Listing(req.body.listing);
+  const listingData = req.body.listing;
+  const listing = new Listing(listingData);
 
-  // Geocode location using OpenStreetMap
-  const geoData = await geocoder.geocode(
-    `${req.body.listing.location}, ${req.body.listing.country}`
-  );
-
-  // If geocode found results, save coordinates
-  if (geoData && geoData.length > 0) {
-    listing.geometry = {
-      type: 'Point',
-      coordinates: [geoData[0].longitude, geoData[0].latitude]
-    };
-  } else {
-    // Fallback location (Delhi) if geocode fails
-    listing.geometry = {
-      type: 'Point',
-      coordinates: [77.2090, 28.6139]
-    };
+  // Manual fix for image object if input was a string
+  if (typeof listingData.image === 'string' && listingData.image.length > 0) {
+    listing.image = { url: listingData.image };
+  } else if (!listingData.image || !listingData.image.url) {
+    // Default image if none provided
+    listing.image = { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e' };
   }
 
-  // Owner must exist (ensure user is logged in)
-  listing.owner = req.user._id;
+  // Geocode location using OpenStreetMap
+  try {
+    const geoData = await geocoder.geocode(`${listing.location}, ${listing.country}`);
+    if (geoData && geoData.length > 0) {
+      listing.geometry = {
+        type: 'Point',
+        coordinates: [geoData[0].longitude, geoData[0].latitude]
+      };
+    } else {
+      listing.geometry = { type: 'Point', coordinates: [77.2090, 28.6139] };
+    }
+  } catch (err) {
+    listing.geometry = { type: 'Point', coordinates: [77.2090, 28.6139] };
+  }
 
+  listing.owner = req.user._id;
   await listing.save();
 
   req.flash('success', 'New listing created!');
@@ -70,9 +87,16 @@ module.exports.renderEditForm = async (req, res) => {
 };
 
 module.exports.updateListing = async (req, res) => {
+  const listingData = req.body.listing;
+  
+  // If image URL was provided as a string, map it correctly
+  if (typeof listingData.image === 'string' && listingData.image.length > 0) {
+    listingData.image = { url: listingData.image };
+  }
+
   await Listing.findByIdAndUpdate(
     req.params.id,
-    req.body.listing,
+    listingData,
     { runValidators: true }
   );
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const listingsController = require('../controllers/listings');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isListingOwner } = require('../middleware');
 
 // INDEX
 router.get('/', listingsController.index);
@@ -17,12 +17,12 @@ router.post('/', isLoggedIn, listingsController.createListing);
 router.get('/:id', listingsController.showListing);
 
 // EDIT
-router.get('/:id/edit', isLoggedIn, listingsController.renderEditForm);
+router.get('/:id/edit', isLoggedIn, isListingOwner, listingsController.renderEditForm);
 
 // UPDATE
-router.put('/:id', isLoggedIn, listingsController.updateListing);
+router.put('/:id', isLoggedIn, isListingOwner, listingsController.updateListing);
 
 // DELETE
-router.delete('/:id', isLoggedIn, listingsController.deleteListing);
+router.delete('/:id', isLoggedIn, isListingOwner, listingsController.deleteListing);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-MD bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md bg-white border-bottom sticky-top py-2">
   <div class="container-fluid px-md-5">
 
     <!-- LEFT: BRAND -->
@@ -54,23 +54,23 @@
 
         <div class="nav-item dropdown ms-md-2">
           <% if (!currentUser) { %>
-            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center bg-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-bars me-2"></i>
               <i class="fa-solid fa-circle-user fa-lg"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden">
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden position-absolute" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item py-2 fw-bold" href="/signup">Sign up</a></li>
               <li><a class="dropdown-item py-2" href="/login">Log in</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item py-2" href="/listings/new">Airbnb your home</a></li>
             </ul>
           <% } else { %>
-            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center bg-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-bars me-2"></i>
               <span class="me-2 text-truncate d-none d-lg-inline" style="max-width: 80px;"><%= currentUser.username %></span>
-              <i class="fa-solid fa-circle-user fa-lg"></i>
+              <i class="fa-solid fa-circle-user fa-lg text-primary"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden">
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden position-absolute" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item py-2 fw-bold" href="/listings">My Dashboard</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item py-2 text-danger" href="/logout">Logout</a></li>
