@@ -24,7 +24,11 @@ const initDB = async () => {
     // Add owner to each listing
     const listingsWithOwner = data.data.map((obj) => ({
       ...obj,
-      owner: "65f0a1b2c3d4e5f678901234" // MUST exist in Users collection
+      owner: "65f0a1b2c3d4e5f678901234", // MUST exist in Users collection
+      geometry: obj.geometry || {
+        type: "Point",
+        coordinates: [77.1025, 28.7041] // Default New Delhi coordinates
+      }
     }));
 
     // Insert into DB
