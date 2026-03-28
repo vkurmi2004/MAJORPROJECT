@@ -109,8 +109,8 @@ app.get('/debug-version', (req, res) => {
 app.use('/listings', listingsRoute);
 app.use('/listings/:id/reviews', reviewsRoute);
 
-// IMPORTANT: mount user routes on /users
-app.use('/users', userRouters);
+// Mount user routes on root
+app.use('/', userRouters);
 
 
 // Start Server

@@ -1,61 +1,84 @@
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-MD bg-body-light border-bottom sticky-top">
+  <div class="container-fluid px-md-5">
 
-    <!-- BRAND -->
-    <a class="navbar-brand" href="/listings">
+    <!-- LEFT: BRAND -->
+    <a class="navbar-brand me-0" href="/listings">
       <i class="fa-solid fa-compass"></i>
     </a>
 
-    <!-- TOGGLER -->
+    <!-- CENTER: SEARCH BAR (MD and Up) -->
+    <div class="d-none d-md-block flex-grow-1 mx-4">
+      <div class="d-flex justify-content-center">
+        <form action="/listings" method="GET" class="search-bar w-100" style="max-width: 400px;">
+          <i class="fa-solid fa-magnifying-glass ms-2"></i>
+          <input
+            type="text"
+            name="q"
+            class="form-control border-0 shadow-none bg-transparent"
+            placeholder="Search by title or location"
+            value="<%= typeof q !== 'undefined' ? q : '' %>"
+          />
+          <button class="btn btn-search rounded-pill" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT: TOGGLER & MENU -->
     <button
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- NAV LINKS -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-      <!-- LEFT SIDE -->
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+      <!-- MOBILE SEARCH (Visible only on small screens) -->
+      <div class="d-md-none mt-3 mb-2 px-2">
+        <form action="/listings" method="GET" class="search-bar">
+          <i class="fa-solid fa-magnifying-glass ms-2"></i>
+          <input
+            type="text"
+            name="q"
+            class="form-control border-0 shadow-none bg-transparent"
+            placeholder="Search destination"
+          />
+          <button class="btn btn-search rounded-pill" type="submit">Go</button>
+        </form>
       </div>
-      <div class="row mt-3">
-  <div class="col-8 offset-2">
-    <form action="/listings" method="GET" class="search-bar">
-      <i class="fa-solid fa-magnifying-glass"></i>
 
-      <input
-        type="text"
-        name="q"
-        placeholder="Search by title or location"
-        value="<%= typeof q !== 'undefined' ? q : '' %>"
-      />
-
-      <button class="btn btn-search" type="submit">Search</button>
-    </form>
-  </div>
-</div>
-
-
-      <!-- RIGHT SIDE -->
       <div class="navbar-nav ms-auto align-items-center">
+        <a class="nav-link font-weight-bold" href="/listings">Explore</a>
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
 
-        <% if (!currentUser) { %>
-          <a class="nav-link" href="/signup">Sign up</a>
-          <a class="nav-link" href="/login">Log in</a>
-        <% } else { %>
-          <a class="nav-link" href="/logout">Log out</a>
-        <% } %>
+        <div class="nav-item dropdown ms-md-2">
+          <% if (!currentUser) { %>
+            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-bars me-2"></i>
+              <i class="fa-solid fa-circle-user fa-lg"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden">
+              <li><a class="dropdown-item py-2 fw-bold" href="/signup">Sign up</a></li>
+              <li><a class="dropdown-item py-2" href="/login">Log in</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/listings/new">Airbnb your home</a></li>
+            </ul>
+          <% } else { %>
+            <a class="nav-link border rounded-pill px-3 py-1 shadow-sm d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-bars me-2"></i>
+              <span class="me-2 text-truncate d-none d-lg-inline" style="max-width: 80px;"><%= currentUser.username %></span>
+              <i class="fa-solid fa-circle-user fa-lg"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-4 overflow-hidden">
+                <li><a class="dropdown-item py-2 fw-bold" href="/listings">My Dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item py-2 text-danger" href="/logout">Logout</a></li>
+            </ul>
+          <% } %>
+        </div>
       </div>
-
     </div>
+
   </div>
 </nav>
